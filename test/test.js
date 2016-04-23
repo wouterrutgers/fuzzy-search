@@ -17,27 +17,16 @@ describe('Fuzzy', function() {
 
     it('should return strings matching "qwe"', function() {
       var list = ['test', 'again', 'word', 'something', 'qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething'];
+      var expectedOutput = ['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething'];
       var fuzzy = new FuzzySearch(list);
 
-      expect(['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']).to.eql(fuzzy.search('qwe'));
+      expect(expectedOutput).to.eql(fuzzy.search('qwe'));
     });
 
     it('should search in keys', function() {
       var list = [
         {
-          name: 'Irene Maseras',
-          location: 'Colombia',
-        },
-        {
-          name: 'Patricia O. Millaruelo',
-          location: 'Colombia',
-        },
-        {
-          name: 'Itziar Julia Pumarola Duenas',
-          location: 'Chile',
-        },
-        {
-          name: 'Betania Ivana Besoli Leites',
+          name: 'Betania Ivana Besoli Leiten',
           location: 'El Salvador',
         },
         {
@@ -45,15 +34,7 @@ describe('Fuzzy', function() {
           location: 'Bolivia',
         },
       ];
-      var results = [
-        {
-          name: 'Itziar Julia Pumarola Duenas',
-          location: 'Chile',
-        },
-        {
-          name: 'Betania Ivana Besoli Leites',
-          location: 'El Salvador',
-        },
+      var expectedOutput = [
         {
           name: 'Alexandría DCastillo Gayubas',
           location: 'Bolivia',
@@ -62,7 +43,7 @@ describe('Fuzzy', function() {
 
       var fuzzy = new FuzzySearch(list, ['name']);
 
-      expect(results).to.eql(fuzzy.search('als'));
+      expect(expectedOutput).to.eql(fuzzy.search('als'));
     });
 
     it('should search in array keys', function() {
@@ -72,23 +53,11 @@ describe('Fuzzy', function() {
           location: 'Colombia',
         },
         {
-          name: ['Patricia', 'O.', 'Millaruelo'],
-          location: 'Colombia',
-        },
-        {
           name: ['Itziar', 'Julia', 'Pumarola', 'Duenas'],
           location: 'Chile',
         },
-        {
-          name: ['Betania', 'Ivana', 'Besoli', 'Leites'],
-          location: 'El Salvador',
-        },
-        {
-          name: ['Alexandría', 'DCastillo', 'Gayubas'],
-          location: 'Bolivia',
-        },
       ];
-      var results = [
+      var expectedOutput = [
         {
           name: ['Itziar', 'Julia', 'Pumarola', 'Duenas'],
           location: 'Chile',
@@ -97,36 +66,49 @@ describe('Fuzzy', function() {
 
       var fuzzy = new FuzzySearch(list, ['name']);
 
-      expect(results).to.eql(fuzzy.search('itzi'));
+      expect(expectedOutput).to.eql(fuzzy.search('itzi'));
     });
 
     it('should search in array keys containing objects', function() {
       var list = [
         {
-          name: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
         },
         {
-          name: [{firstname: 'Itziar', lastname: 'Julia'}, {firstname: 'Pumarola', lastname: 'Duenas'}],
-        },
-        {
-          name: [{firstname: 'Betania', lastname: 'Ivana'}, {firstname: 'Besoli', lastname: 'Leites'}],
-        },
-        {
-          name: [{firstname: 'Alexandría', lastname: 'DCastillo'}, {firstname: 'Gayubas', lastname: 'Pumarola'}],
+          persons: [{firstname: 'Alexandría', lastname: 'DCastillo'}, {firstname: 'Gayubas', lastname: 'Pumarola'}],
         },
       ];
-      var results = [
+      var expectedOutput = [
         {
-          name: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
-        },
-        {
-          name: [{firstname: 'Itziar', lastname: 'Julia'}, {firstname: 'Pumarola', lastname: 'Duenas'}],
+          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
         },
       ];
 
-      var fuzzy = new FuzzySearch(list, ['name.firstname']);
+      var fuzzy = new FuzzySearch(list, ['persons.firstname']);
 
-      expect(results).to.eql(fuzzy.search('tzia'));
+      expect(expectedOutput).to.eql(fuzzy.search('tzia'));
+    });
+
+    it('should allow to search case sensitive', function() {
+      var list = [
+        {
+          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+        },
+        {
+          persons: [{firstname: 'patricia', lastname: 'millaruelo'}, {firstname: 'itziar', lastname: 'julia'}],
+        },
+      ];
+      var expectedOutput = [
+        {
+          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+        },
+      ];
+
+      var fuzzy = new FuzzySearch(list, ['persons.firstname'], {
+        caseSensitive: true,
+      });
+
+      expect(expectedOutput).to.eql(fuzzy.search('Pat'));
     });
   });
 });

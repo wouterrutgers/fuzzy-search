@@ -28,13 +28,15 @@ var people = [{
   state: 'Seattle',
 }];
 
-var fuzzy = new FuzzySearch(people, ['name.firstName', 'state']);
+var fuzzy = new FuzzySearch(people, ['name.firstName', 'state'], {
+  caseSensitive: true,
+});
 var result = fuzzy.search('ess');
 ```
 
 ## Documentation
 ```js
-var fuzzy = new FuzzySearch(<haystack>, [keys]);
+var fuzzy = new FuzzySearch(<haystack>, [keys], [options]);
 var result = fuzzy.search(<needle>);
 ```
 
@@ -44,5 +46,13 @@ var result = fuzzy.search(<needle>);
 ### `[keys]`
 (Array) List of properties that will be searched. This also supports nested properties.
 
+### `[options]`
+(Object) Object with options that will configure the search
+
 ### `<needle>`
 (String) The string to search on 
+
+## Options
+**caseSensitive** (_type_: `Boolean`)
+
+Indicates whether comparisons should be case sensitive.

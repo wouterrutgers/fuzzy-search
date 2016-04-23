@@ -1,28 +1,31 @@
-export default class Fuzzy {
-  constructor(list = [], keys = []) {
+export default class FuzzySearch {
+  constructor(list = [], keys = [], options = {}) {
     if (list.length == 0) {
       throw new Error('We need an array containing the search list');
     }
 
     this.list = list;
     this.keys = keys;
+    this.options = FuzzySearch.extend({
+      caseSensitive: false,
+    }, options);
   }
 
   search(query = '') {
-    var results = [];
+    let results = [];
 
-    for (var x = 0; x < this.list.length; x++) {
-      var item = this.list[x];
+    for (let x = 0; x < this.list.length; x++) {
+      let item = this.list[x];
 
-      if (this.keys.length == 0 && this.isMatch(item, query)) {
+      if (this.keys.length == 0 && FuzzySearch.isMatch(item, query, this.options.caseSensitive)) {
         results.push(item);
       } else {
-        for (var y = 0; y < this.keys.length; y++) {
-          var propertyValues = this.getDescendantProperty(item, this.keys[y]);
-          var found = false;
+        for (let y = 0; y < this.keys.length; y++) {
+          let propertyValues = FuzzySearch.getDescendantProperty(item, this.keys[y]);
+          let found = false;
 
-          for (var z = 0; z < propertyValues.length; z++) {
-            if (this.isMatch(propertyValues[z], query)) {
+          for (let z = 0; z < propertyValues.length; z++) {
+            if (FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive)) {
               results.push(item);
               found = true;
 
@@ -40,13 +43,37 @@ export default class Fuzzy {
     return results;
   }
 
-  getDescendantProperty(object, path, list = []) {
-    var firstSegment;
-    var remaining;
-    var dotIndex;
-    var value;
-    var index;
-    var length;
+  static extend(...objects) {
+    let output = {};
+
+    for (let i = 1; i < objects.length; i++) {
+      let object = objects[i];
+
+      if (!object) {
+        continue;
+      }
+
+      for (let key in object) {
+        if (object.hasOwnProperty(key)) {
+          if (typeof object[key] === 'object') {
+            output[key] = FuzzySearch.deepExtend(output[key], object[key]);
+          } else {
+            output[key] = object[key];
+          }
+        }
+      }
+    }
+
+    return output;
+  }
+
+  static getDescendantProperty(object, path, list = []) {
+    let firstSegment;
+    let remaining;
+    let dotIndex;
+    let value;
+    let index;
+    let length;
 
     if (!path) {
       list.push(object)
@@ -66,10 +93,10 @@ export default class Fuzzy {
           list.push(value)
         } else if (Object.prototype.toString.call(value) === '[object Array]') {
           for (index = 0, length = value.length; index < length; index++) {
-            this.getDescendantProperty(value[index], remaining, list)
+            FuzzySearch.getDescendantProperty(value[index], remaining, list)
           }
         } else if (remaining) {
-          this.getDescendantProperty(value, remaining, list)
+          FuzzySearch.getDescendantProperty(value, remaining, list)
         }
       }
     }
@@ -77,8 +104,8 @@ export default class Fuzzy {
     return list
   }
 
-  isMatch(item, query) {
-    var regexp = new RegExp(query.split('').map(letter => letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")).join('.*?'), 'i');
+  static isMatch(item, query, caseSensitive) {
+    let regexp = new RegExp(query.split('').map(letter => letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")).join('.*?'), !caseSensitive ? 'i' : '');
 
     if (regexp.test(item)) {
       return true;

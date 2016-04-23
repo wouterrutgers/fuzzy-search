@@ -4,16 +4,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Fuzzy = function () {
-  function Fuzzy() {
+var FuzzySearch = function () {
+  function FuzzySearch() {
     var list = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
     var keys = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    _classCallCheck(this, Fuzzy);
+    _classCallCheck(this, FuzzySearch);
 
     if (list.length == 0) {
       throw new Error('We need an array containing the search list');
@@ -21,9 +24,12 @@ var Fuzzy = function () {
 
     this.list = list;
     this.keys = keys;
+    this.options = FuzzySearch.extend({
+      caseSensitive: false
+    }, options);
   }
 
-  _createClass(Fuzzy, [{
+  _createClass(FuzzySearch, [{
     key: 'search',
     value: function search() {
       var query = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
@@ -33,15 +39,15 @@ var Fuzzy = function () {
       for (var x = 0; x < this.list.length; x++) {
         var item = this.list[x];
 
-        if (this.keys.length == 0 && this.isMatch(item, query)) {
+        if (this.keys.length == 0 && FuzzySearch.isMatch(item, query, this.options.caseSensitive)) {
           results.push(item);
         } else {
           for (var y = 0; y < this.keys.length; y++) {
-            var propertyValues = this.getDescendantProperty(item, this.keys[y]);
+            var propertyValues = FuzzySearch.getDescendantProperty(item, this.keys[y]);
             var found = false;
 
             for (var z = 0; z < propertyValues.length; z++) {
-              if (this.isMatch(propertyValues[z], query)) {
+              if (FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive)) {
                 results.push(item);
                 found = true;
 
@@ -58,17 +64,46 @@ var Fuzzy = function () {
 
       return results;
     }
+  }], [{
+    key: 'extend',
+    value: function extend() {
+      var output = {};
+
+      for (var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++) {
+        objects[_key] = arguments[_key];
+      }
+
+      for (var i = 1; i < objects.length; i++) {
+        var object = objects[i];
+
+        if (!object) {
+          continue;
+        }
+
+        for (var key in object) {
+          if (object.hasOwnProperty(key)) {
+            if (_typeof(object[key]) === 'object') {
+              output[key] = FuzzySearch.deepExtend(output[key], object[key]);
+            } else {
+              output[key] = object[key];
+            }
+          }
+        }
+      }
+
+      return output;
+    }
   }, {
     key: 'getDescendantProperty',
     value: function getDescendantProperty(object, path) {
       var list = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
 
-      var firstSegment;
-      var remaining;
-      var dotIndex;
-      var value;
-      var index;
-      var length;
+      var firstSegment = void 0;
+      var remaining = void 0;
+      var dotIndex = void 0;
+      var value = void 0;
+      var index = void 0;
+      var length = void 0;
 
       if (!path) {
         list.push(object);
@@ -88,10 +123,10 @@ var Fuzzy = function () {
             list.push(value);
           } else if (Object.prototype.toString.call(value) === '[object Array]') {
             for (index = 0, length = value.length; index < length; index++) {
-              this.getDescendantProperty(value[index], remaining, list);
+              FuzzySearch.getDescendantProperty(value[index], remaining, list);
             }
           } else if (remaining) {
-            this.getDescendantProperty(value, remaining, list);
+            FuzzySearch.getDescendantProperty(value, remaining, list);
           }
         }
       }
@@ -100,10 +135,10 @@ var Fuzzy = function () {
     }
   }, {
     key: 'isMatch',
-    value: function isMatch(item, query) {
+    value: function isMatch(item, query, caseSensitive) {
       var regexp = new RegExp(query.split('').map(function (letter) {
         return letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-      }).join('.*?'), 'i');
+      }).join('.*?'), !caseSensitive ? 'i' : '');
 
       if (regexp.test(item)) {
         return true;
@@ -113,8 +148,8 @@ var Fuzzy = function () {
     }
   }]);
 
-  return Fuzzy;
+  return FuzzySearch;
 }();
 
-exports.default = Fuzzy;
+exports.default = FuzzySearch;
 //# sourceMappingURL=fuzzy-search.js.map
