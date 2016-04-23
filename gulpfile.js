@@ -5,9 +5,7 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var mocha = require('gulp-spawn-mocha');
 
-gulp.task('default', function() {
-  return gulp.start('compile', 'minify', 'test');
-});
+gulp.task('default', ['compile', 'minify', 'test']);
 
 gulp.task('compile', function() {
   process.stdout.write('\033[2J');
