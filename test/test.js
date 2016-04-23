@@ -1,12 +1,12 @@
 'use strict';
 
-var Fuzzy = require('./../dist/fuzzy').default;
+var FuzzySearch = require('./../dist/fuzzy-search').default;
 var expect = require('chai').expect;
 
 describe('Fuzzy', function() {
   describe('search', function() {
     it('should return an error when called as a function', function() {
-      expect(Fuzzy).to.throw(/Cannot call a class as a function/);
+      expect(FuzzySearch).to.throw('Cannot call a class as a function');
     });
 
     it('should return an empty array when searching without items', function() {
@@ -17,9 +17,9 @@ describe('Fuzzy', function() {
 
     it('should return strings matching "qwe"', function() {
       var list = ['test', 'again', 'word', 'something', 'qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething'];
-      var search = new Fuzzy(list);
+      var fuzzy = new FuzzySearch(list);
 
-      expect(['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']).to.eql(search.search('qwe'));
+      expect(['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']).to.eql(fuzzy.search('qwe'));
     });
 
     it('should search in keys', function() {
@@ -60,9 +60,9 @@ describe('Fuzzy', function() {
         },
       ];
 
-      var search = new Fuzzy(list, ['name']);
+      var fuzzy = new FuzzySearch(list, ['name']);
 
-      expect(results).to.eql(search.search('als'));
+      expect(results).to.eql(fuzzy.search('als'));
     });
 
     it('should search in array keys', function() {
@@ -95,9 +95,9 @@ describe('Fuzzy', function() {
         },
       ];
 
-      var search = new Fuzzy(list, ['name']);
+      var fuzzy = new FuzzySearch(list, ['name']);
 
-      expect(results).to.eql(search.search('itzi'));
+      expect(results).to.eql(fuzzy.search('itzi'));
     });
 
     it('should search in array keys containing objects', function() {
@@ -124,9 +124,9 @@ describe('Fuzzy', function() {
         },
       ];
 
-      var search = new Fuzzy(list, ['name.firstname']);
+      var fuzzy = new FuzzySearch(list, ['name.firstname']);
 
-      expect(results).to.eql(search.search('tzia'));
+      expect(results).to.eql(fuzzy.search('tzia'));
     });
   });
 });

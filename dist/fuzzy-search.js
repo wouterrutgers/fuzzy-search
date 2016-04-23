@@ -15,6 +15,10 @@ var Fuzzy = function () {
 
     _classCallCheck(this, Fuzzy);
 
+    if (list.length == 0) {
+      throw new Error('We need an array containing the search list');
+    }
+
     this.list = list;
     this.keys = keys;
   }
@@ -113,4 +117,4 @@ var Fuzzy = function () {
 }();
 
 exports.default = Fuzzy;
-//# sourceMappingURL=fuzzy.js.map
+//# sourceMappingURL=fuzzy-search.js.map

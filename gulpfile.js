@@ -10,23 +10,23 @@ gulp.task('default', ['compile', 'minify', 'test']);
 gulp.task('compile', function() {
   process.stdout.write('\033[2J');
 
-  return gulp.src('src/Fuzzy.js')
+  return gulp.src('src/Fuzzy-search.js')
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(rename('fuzzy.js'))
+    .pipe(rename('fuzzy-search.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('minify', function() {
-  return gulp.src('src/Fuzzy.js')
+  return gulp.src('src/Fuzzy-search.js')
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(rename('fuzzy.min.js'))
+    .pipe(rename('fuzzy-search.min.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'));
