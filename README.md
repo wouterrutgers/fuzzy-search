@@ -18,7 +18,7 @@
 
 ## Quick start guide
 ```js
-import FuzzySearch from 'fuzzy-search';
+import FuzzySearch from 'fuzzy-search'; // Or: var FuzzySearch = require('fuzzy-search');
 
 var people = [{
   name: {
