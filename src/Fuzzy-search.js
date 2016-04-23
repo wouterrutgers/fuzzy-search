@@ -1,5 +1,9 @@
 export default class Fuzzy {
   constructor(list = [], keys = []) {
+    if (list.length == 0) {
+      throw new Error('We need an array containing the search list');
+    }
+
     this.list = list;
     this.keys = keys;
   }

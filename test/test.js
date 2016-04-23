@@ -9,10 +9,10 @@ describe('Fuzzy', function() {
       expect(FuzzySearch).to.throw('Cannot call a class as a function');
     });
 
-    it('should return an empty array when searching without items', function() {
-      var search = new Fuzzy();
-
-      expect([]).to.eql(search.search());
+    it('should return an error when searching without items', function() {
+      expect(function() {
+        new FuzzySearch();
+      }).to.throw('We need an array containing the search list');
     });
 
     it('should return strings matching "qwe"', function() {
