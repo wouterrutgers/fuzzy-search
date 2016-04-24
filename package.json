@@ -38,5 +38,6 @@
     "presets": [
       "es2015"
     ]
-  }
+  },
+  "tonicExampleFilename": "example.js"
 }
