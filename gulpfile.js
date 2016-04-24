@@ -5,6 +5,8 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var mocha = require('gulp-spawn-mocha');
 var umd = require('gulp-umd');
+var path = require('path');
+var runSequence = require('run-sequence');
 
 var umdOptions = {
   exports: function() {
@@ -13,13 +15,14 @@ var umdOptions = {
   namespace: function() {
     return 'FuzzySearch';
   },
+  template: path.join(__dirname, 'umd-template.js'),
 };
 
-gulp.task('default', ['compile', 'minify', 'test']);
+gulp.task('default', function(callback) {
+  runSequence('compile', 'minify', 'test', callback);
+});
 
 gulp.task('compile', function() {
-  process.stdout.write('\033[2J');
-
   return gulp.src('src/Fuzzy-search.js')
     .pipe(sourcemaps.init())
     .pipe(babel({
