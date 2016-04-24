@@ -40,6 +40,10 @@ var FuzzySearch = function () {
 
       var results = [];
 
+      if (query == '') {
+        return this.list;
+      }
+
       for (var x = 0; x < this.list.length; x++) {
         var item = this.list[x];
 
@@ -137,8 +141,8 @@ var FuzzySearch = function () {
     key: 'isMatch',
     value: function isMatch(item, query, caseSensitive) {
       if (!caseSensitive) {
-        item = item.toLowerCase();
-        query = query.toLowerCase();
+        item = item.toLocaleLowerCase();
+        query = query.toLocaleLowerCase();
       }
 
       var index = 0;

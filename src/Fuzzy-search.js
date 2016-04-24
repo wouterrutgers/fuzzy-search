@@ -14,6 +14,10 @@ class FuzzySearch {
   search(query = '') {
     let results = [];
 
+    if (query == '') {
+      return this.list;
+    }
+
     for (let x = 0; x < this.list.length; x++) {
       let item = this.list[x];
 
@@ -102,8 +106,8 @@ class FuzzySearch {
 
   static isMatch(item, query, caseSensitive) {
     if (!caseSensitive) {
-      item = item.toLowerCase();
-      query = query.toLowerCase();
+      item = item.toLocaleLowerCase();
+      query = query.toLocaleLowerCase();
     }
 
     let index = 0;

@@ -110,6 +110,21 @@ describe('Fuzzy', function() {
 
       expect(expectedOutput).to.eql(fuzzy.search('Pat'));
     });
+
+    it('should return the whole list with an empty query string', function() {
+      var list = [
+        {
+          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+        },
+        {
+          persons: [{firstname: 'Alexandría', lastname: 'DCastillo'}, {firstname: 'Gayubas', lastname: 'Pumarola'}],
+        },
+      ];
+
+      var fuzzy = new FuzzySearch(list, ['persons.firstname']);
+
+      expect(list).to.eql(fuzzy.search());
+    });
   });
 
   describe('getDescendantProperty', function() {
