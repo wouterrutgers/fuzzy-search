@@ -7,6 +7,8 @@
 
 > Simple fuzzy search
 
+Uses `String.indexOf` instead of `RegExp` to make this library 3 times faster than libraries that use `RegExp`!
+
 ## Installation
 
 > Using npm
