@@ -136,15 +136,23 @@ var FuzzySearch = function () {
   }, {
     key: 'isMatch',
     value: function isMatch(item, query, caseSensitive) {
-      var regexp = new RegExp(query.split('').map(function (letter) {
-        return letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-      }).join('.*?'), !caseSensitive ? 'i' : '');
-
-      if (regexp.test(item)) {
-        return true;
+      if (!caseSensitive) {
+        item = item.toLowerCase();
+        query = query.toLowerCase();
       }
 
-      return false;
+      var index = 0;
+      var letters = query.split('');
+
+      for (var x = 0; x < letters.length; x++) {
+        var letter = letters[x];
+
+        if ((index = item.indexOf(letter, index)) == -1) {
+          return false;
+        }
+      }
+
+      return true;
     }
   }]);
 

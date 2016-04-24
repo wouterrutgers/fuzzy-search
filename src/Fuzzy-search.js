@@ -101,12 +101,22 @@ class FuzzySearch {
   }
 
   static isMatch(item, query, caseSensitive) {
-    let regexp = new RegExp(query.split('').map(letter => letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")).join('.*?'), !caseSensitive ? 'i' : '');
-
-    if (regexp.test(item)) {
-      return true;
+    if (!caseSensitive) {
+      item = item.toLowerCase();
+      query = query.toLowerCase();
     }
 
-    return false;
+    let index = 0;
+    let letters = query.split('');
+
+    for (let x = 0; x < letters.length; x++) {
+      let letter = letters[x];
+
+      if ((index = item.indexOf(letter, index)) == -1) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
