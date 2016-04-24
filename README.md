@@ -19,6 +19,7 @@
 
 ## Quick start guide
 ```js
+// This can be excluded when loaded via <script>
 import FuzzySearch from 'fuzzy-search'; // Or: var FuzzySearch = require('fuzzy-search');
 
 var people = [{
