@@ -44,27 +44,23 @@ class FuzzySearch {
   }
 
   static extend(...objects) {
-    let output = {};
+    let target = {};
 
-    for (let i = 1; i < objects.length; i++) {
-      let object = objects[i];
+    for (let x = 0; x < objects.length; x++) {
+      let object = objects[x];
 
-      if (!object) {
-        continue;
-      }
-
-      for (let key in object) {
-        if (object.hasOwnProperty(key)) {
-          if (typeof object[key] === 'object') {
-            output[key] = FuzzySearch.deepExtend(output[key], object[key]);
+      for (let property in object) {
+        if (Object.prototype.hasOwnProperty.call(object, property)) {
+          if (Object.prototype.toString.call(object[property]) === '[object Object]') {
+            target[property] = FuzzySearch.extend(target[property], object[property]);
           } else {
-            output[key] = object[key];
+            target[property] = object[property];
           }
         }
       }
     }
 
-    return output;
+    return target;
   }
 
   static getDescendantProperty(object, path, list = []) {

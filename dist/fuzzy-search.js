@@ -1,4 +1,5 @@
 ;(function(root, factory) {
+  /* istanbul ignore next */
   if (typeof define === 'function' && define.amd) {
     define([], factory);
   } else if (typeof exports === 'object') {
@@ -8,8 +9,6 @@
   }
 }(this, function() {
 'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -72,31 +71,27 @@ var FuzzySearch = function () {
   }], [{
     key: 'extend',
     value: function extend() {
-      var output = {};
+      var target = {};
 
       for (var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++) {
         objects[_key] = arguments[_key];
       }
 
-      for (var i = 1; i < objects.length; i++) {
-        var object = objects[i];
+      for (var x = 0; x < objects.length; x++) {
+        var object = objects[x];
 
-        if (!object) {
-          continue;
-        }
-
-        for (var key in object) {
-          if (object.hasOwnProperty(key)) {
-            if (_typeof(object[key]) === 'object') {
-              output[key] = FuzzySearch.deepExtend(output[key], object[key]);
+        for (var property in object) {
+          if (Object.prototype.hasOwnProperty.call(object, property)) {
+            if (Object.prototype.toString.call(object[property]) === '[object Object]') {
+              target[property] = FuzzySearch.extend(target[property], object[property]);
             } else {
-              output[key] = object[key];
+              target[property] = object[property];
             }
           }
         }
       }
 
-      return output;
+      return target;
     }
   }, {
     key: 'getDescendantProperty',

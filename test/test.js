@@ -111,4 +111,54 @@ describe('Fuzzy', function() {
       expect(expectedOutput).to.eql(fuzzy.search('Pat'));
     });
   });
+
+  describe('getDescendantProperty', function() {
+    it('should allow for deep key search', function() {
+      var object = {
+        level1: {
+          level2: [
+            {
+              level3: 'NL',
+            },
+            {
+              level3: 'EN',
+            }
+          ],
+        }
+      };
+      var expectedOutput = ['NL', 'EN'];
+
+      expect(expectedOutput).to.eql(FuzzySearch.getDescendantProperty(object, 'level1.level2.level3'));
+    });
+  });
+
+  describe('extend', function() {
+    it('should allow for deep extending', function() {
+      var object1 = {
+        level1: {
+          level2: {
+            caseSensitive: true,
+            doSomething: false,
+          }
+        }
+      };
+      var object2 = {
+        level1: {
+          level2: {
+            doSomething: true,
+          }
+        }
+      };
+      var expectedOutput = {
+        level1: {
+          level2: {
+            caseSensitive: true,
+            doSomething: true,
+          }
+        }
+      };
+
+      expect(expectedOutput).to.eql(FuzzySearch.extend(object1, object2));
+    });
+  });
 });
