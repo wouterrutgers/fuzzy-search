@@ -1,6 +1,6 @@
 'use strict';
 
-var FuzzySearch = require('./../dist/fuzzy-search').default;
+var FuzzySearch = require('./../dist/fuzzy-search');
 var expect = require('chai').expect;
 
 describe('Fuzzy', function() {

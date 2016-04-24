@@ -1,8 +1,13 @@
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.FuzzySearch = factory();
+  }
+}(this, function() {
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -150,6 +155,7 @@ var FuzzySearch = function () {
 
   return FuzzySearch;
 }();
+return FuzzySearch;
+}));
 
-exports.default = FuzzySearch;
 //# sourceMappingURL=fuzzy-search.js.map

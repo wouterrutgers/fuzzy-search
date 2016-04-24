@@ -4,6 +4,16 @@ var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var mocha = require('gulp-spawn-mocha');
+var umd = require('gulp-umd');
+
+var umdOptions = {
+  exports: function() {
+    return 'FuzzySearch';
+  },
+  namespace: function() {
+    return 'FuzzySearch';
+  },
+};
 
 gulp.task('default', ['compile', 'minify', 'test']);
 
@@ -16,6 +26,7 @@ gulp.task('compile', function() {
       presets: ['es2015']
     }))
     .pipe(rename('fuzzy-search.js'))
+    .pipe(umd(umdOptions))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'));
 });
@@ -27,6 +38,7 @@ gulp.task('minify', function() {
       presets: ['es2015']
     }))
     .pipe(rename('fuzzy-search.min.js'))
+    .pipe(umd(umdOptions))
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'));

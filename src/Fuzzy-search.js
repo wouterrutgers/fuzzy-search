@@ -1,4 +1,4 @@
-export default class FuzzySearch {
+class FuzzySearch {
   constructor(list = [], keys = [], options = {}) {
     if (list.length == 0) {
       throw new Error('We need an array containing the search list');
