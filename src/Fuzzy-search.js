@@ -8,6 +8,7 @@ class FuzzySearch {
     this.keys = keys;
     this.options = FuzzySearch.extend({
       caseSensitive: false,
+      sort: false,
     }, options);
   }
 
@@ -21,30 +22,44 @@ class FuzzySearch {
     for (let x = 0; x < this.list.length; x++) {
       let item = this.list[x];
 
-      if (this.keys.length == 0 && FuzzySearch.isMatch(item, query, this.options.caseSensitive)) {
-        results.push(item);
+      if (this.keys.length == 0) {
+        let score = FuzzySearch.isMatch(item, query, this.options.caseSensitive);
+
+        if (score) {
+          results.push({
+            item,
+            score,
+          });
+        }
       } else {
-        for (let y = 0; y < this.keys.length; y++) {
+        keysLoop: for (let y = 0; y < this.keys.length; y++) {
           let propertyValues = FuzzySearch.getDescendantProperty(item, this.keys[y]);
-          let found = false;
 
           for (let z = 0; z < propertyValues.length; z++) {
-            if (FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive)) {
-              results.push(item);
-              found = true;
+            let score = FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive);
 
-              break;
+            if (score) {
+              results.push({
+                item,
+                score,
+              });
+
+              break keysLoop;
             }
-          }
-
-          if (found) {
-            break;
           }
         }
       }
     }
 
-    return results;
+    if (this.options.sort) {
+      results.sort((a, b) => {
+        return a.score - b.score;
+      });
+    }
+
+    return results.map((result) => {
+      return result.item;
+    });
   }
 
   static extend(...objects) {
@@ -111,18 +126,31 @@ class FuzzySearch {
     }
 
     let index = 0;
+    let indexes = [];
     let letters = query.split('');
 
     for (let x = 0; x < letters.length; x++) {
       let letter = letters[x];
 
-      if ((index = item.indexOf(letter, index)) == -1) {
+      index = item.indexOf(letter, index);
+
+      if (index == -1) {
         return false;
       }
+
+      indexes.push(index);
 
       index++;
     }
 
-    return true;
+    let score = 0;
+
+    for (let x = 0; x < indexes.length; x++) {
+      if (x != indexes.length - 1) {
+        score += indexes[x + 1] - indexes[x];
+      }
+    }
+
+    return score;
   }
 }
