@@ -134,6 +134,17 @@ describe('Fuzzy', function() {
 
       expect(expectedOutput).to.eql(fuzzy.search('looooooong string'));
     });
+
+    it('should allow sorting', function() {
+      var list = ['a______b______c', 'a__b__c', 'abc'];
+      var expectedOutput = ['abc', 'a__b__c', 'a______b______c'];
+
+      var fuzzy = new FuzzySearch(list, [], {
+        sort: true,
+      });
+
+      expect(expectedOutput).to.eql(fuzzy.search('abc'));
+    });
   });
 
   describe('getDescendantProperty', function() {

@@ -29,7 +29,8 @@ var FuzzySearch = function () {
     this.list = list;
     this.keys = keys;
     this.options = FuzzySearch.extend({
-      caseSensitive: false
+      caseSensitive: false,
+      sort: false
     }, options);
   }
 
@@ -47,30 +48,44 @@ var FuzzySearch = function () {
       for (var x = 0; x < this.list.length; x++) {
         var item = this.list[x];
 
-        if (this.keys.length == 0 && FuzzySearch.isMatch(item, query, this.options.caseSensitive)) {
-          results.push(item);
+        if (this.keys.length == 0) {
+          var score = FuzzySearch.isMatch(item, query, this.options.caseSensitive);
+
+          if (score) {
+            results.push({
+              item: item,
+              score: score
+            });
+          }
         } else {
-          for (var y = 0; y < this.keys.length; y++) {
+          keysLoop: for (var y = 0; y < this.keys.length; y++) {
             var propertyValues = FuzzySearch.getDescendantProperty(item, this.keys[y]);
-            var found = false;
 
             for (var z = 0; z < propertyValues.length; z++) {
-              if (FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive)) {
-                results.push(item);
-                found = true;
+              var _score = FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive);
 
-                break;
+              if (_score) {
+                results.push({
+                  item: item,
+                  score: _score
+                });
+
+                break keysLoop;
               }
-            }
-
-            if (found) {
-              break;
             }
           }
         }
       }
 
-      return results;
+      if (this.options.sort) {
+        results.sort(function (a, b) {
+          return a.score - b.score;
+        });
+      }
+
+      return results.map(function (result) {
+        return result.item;
+      });
     }
   }], [{
     key: 'extend',
@@ -146,19 +161,32 @@ var FuzzySearch = function () {
       }
 
       var index = 0;
+      var indexes = [];
       var letters = query.split('');
 
       for (var x = 0; x < letters.length; x++) {
         var letter = letters[x];
 
-        if ((index = item.indexOf(letter, index)) == -1) {
+        index = item.indexOf(letter, index);
+
+        if (index == -1) {
           return false;
         }
+
+        indexes.push(index);
 
         index++;
       }
 
-      return true;
+      var score = 0;
+
+      for (var _x6 = 0; _x6 < indexes.length; _x6++) {
+        if (_x6 != indexes.length - 1) {
+          score += indexes[_x6 + 1] - indexes[_x6];
+        }
+      }
+
+      return score;
     }
   }]);
 

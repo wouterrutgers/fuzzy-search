@@ -60,3 +60,9 @@ var result = fuzzy.search(<needle>);
 **caseSensitive** (_type_: `Boolean`)
 
 Indicates whether comparisons should be case sensitive.
+
+**sort** (_type_: `Boolean`)
+
+When `true` it will sort the results by best match (when searching for `abc` in the search set `['a__b__c', 'abc']` it would return `abc` as the first result)
+
+When `false` it will return the results in the original order
