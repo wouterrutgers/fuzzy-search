@@ -125,6 +125,15 @@ describe('Fuzzy', function() {
 
       expect(list).to.eql(fuzzy.search());
     });
+
+    it('should not match repeating letters', function() {
+      var list = ['long string', 'string'];
+      var expectedOutput = [];
+
+      var fuzzy = new FuzzySearch(list);
+
+      expect(expectedOutput).to.eql(fuzzy.search('looooooong string'));
+    });
   });
 
   describe('getDescendantProperty', function() {

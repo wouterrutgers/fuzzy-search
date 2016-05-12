@@ -119,6 +119,8 @@ class FuzzySearch {
       if ((index = item.indexOf(letter, index)) == -1) {
         return false;
       }
+
+      index++;
     }
 
     return true;
