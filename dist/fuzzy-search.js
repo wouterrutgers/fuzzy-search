@@ -178,7 +178,7 @@ var FuzzySearch = function () {
         index++;
       }
 
-      var score = 0;
+      var score = 1;
 
       for (var _x6 = 0; _x6 < indexes.length; _x6++) {
         if (_x6 != indexes.length - 1) {

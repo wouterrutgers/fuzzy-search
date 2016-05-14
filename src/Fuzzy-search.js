@@ -143,7 +143,7 @@ class FuzzySearch {
       index++;
     }
 
-    let score = 0;
+    let score = 1;
 
     for (let x = 0; x < indexes.length; x++) {
       if (x != indexes.length - 1) {
