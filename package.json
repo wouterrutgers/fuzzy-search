@@ -1,5 +1,5 @@
 {
-  "name": "FuzzySearch",
+  "name": "fuzzy-search",
   "version": "1.3.6",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",

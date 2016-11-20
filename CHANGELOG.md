@@ -7,4 +7,4 @@
 
 ### Changed
 - Show the build status of the master branch.
-- Improved README.md
+- Improved README.
