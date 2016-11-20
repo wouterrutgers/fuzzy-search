@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.4.0 (2016-11-20)
+
+### Added
+- ESLint to check code style
+
+### Fixed
+- Errors reported by ESLint
+
 ## v1.3.8 (2016-11-20)
 
 ### Fixed

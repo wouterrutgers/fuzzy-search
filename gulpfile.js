@@ -6,13 +6,15 @@ const easySauce = require('easy-sauce');
 const process = require('process');
 
 gulp.task('webpack', callback => {
-  let config = require('./webpack.config');
+  const config = require('./webpack.config');
   let index = 0;
 
-  const output = err => {
+  const output = (err, output) => {
     if (err) {
       throw new err;
     }
+
+    console.log(output.toString('errors-only'));
 
     index++;
 
@@ -24,20 +26,9 @@ gulp.task('webpack', callback => {
   };
 
   const queue = [
-    () => {
-      config.entry = './src/FuzzySearch.js';
-      webpack(config, output);
-    },
-    () => {
-      config.entry = './src/FuzzySearch.js';
-      config.output.filename = 'FuzzySearch.min.js';
-      webpack(config, output);
-    },
-    () => {
-      config.entry = './tests/test.js';
-      config.output = { path: './tests/compiled', filename: 'test.js' };
-      webpack(config, output);
-    },
+    () => webpack(config.default, output),
+    () => webpack(config.production, output),
+    () => webpack(config.test, output),
   ];
 
   queue[0]();
