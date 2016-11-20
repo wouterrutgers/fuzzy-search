@@ -1,12 +1,21 @@
-'use strict';
-
-var FuzzySearch = require('./../dist/fuzzy-search');
-var expect = require('chai').expect;
+const expect = chai.expect;
+const Helper = require('./../src/Helper').default;
 
 describe('Fuzzy', function() {
   describe('search', function() {
     it('should return an error when called as a function', function() {
-      expect(FuzzySearch).to.throw('Cannot call a class as a function');
+      let catched = false;
+
+      try {
+        FuzzySearch();
+      } catch (Exception) {
+        expect(Exception.message).to.contain('Cannot call a class as a function');
+        catched = true;
+      }
+
+      if (!catched) {
+        throw 'FuzzySearch should throw an error when called as a function';
+      }
     });
 
     it('should return an error when searching without items', function() {
@@ -82,15 +91,15 @@ describe('Fuzzy', function() {
     it('should search in array keys containing objects', function() {
       var list = [
         {
-          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+          persons: [{ firstname: 'Patricia', lastname: 'Millaruelo' }, { firstname: 'Itziar', lastname: 'Julia' }],
         },
         {
-          persons: [{firstname: 'Alexandría', lastname: 'DCastillo'}, {firstname: 'Gayubas', lastname: 'Pumarola'}],
+          persons: [{ firstname: 'Alexandría', lastname: 'DCastillo' }, { firstname: 'Gayubas', lastname: 'Pumarola' }],
         },
       ];
       var expectedOutput = [
         {
-          persons: [{firstname: 'Patricia', lastname: 'Millaruelo'}, {firstname: 'Itziar', lastname: 'Julia'}],
+          persons: [{ firstname: 'Patricia', lastname: 'Millaruelo' }, { firstname: 'Itziar', lastname: 'Julia' }],
         },
       ];
 
@@ -155,7 +164,7 @@ describe('Fuzzy', function() {
       };
       var expectedOutput = ['NL', 'EN'];
 
-      expect(expectedOutput).to.eql(FuzzySearch.getDescendantProperty(object, 'level1.level2.level3'));
+      expect(expectedOutput).to.eql(Helper.getDescendantProperty(object, 'level1.level2.level3'));
     });
   });
 
@@ -185,7 +194,7 @@ describe('Fuzzy', function() {
         }
       };
 
-      expect(expectedOutput).to.eql(FuzzySearch.extend(object1, object2));
+      expect(expectedOutput).to.eql(Helper.extend(object1, object2));
     });
   });
 });
