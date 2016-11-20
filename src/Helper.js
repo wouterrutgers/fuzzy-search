@@ -1,11 +1,11 @@
 export default class Helper {
   static extend(...objects) {
-    let target = {};
+    const target = {};
 
-    for (let x = 0; x < objects.length; x++) {
-      let object = objects[x];
+    for (let i = 0; i < objects.length; i++) {
+      const object = objects[i];
 
-      for (let property in object) {
+      for (const property in object) {
         if (Object.prototype.hasOwnProperty.call(object, property)) {
           if (Object.prototype.toString.call(object[property]) === '[object Object]') {
             target[property] = Helper.extend(target[property], object[property]);
@@ -27,32 +27,32 @@ export default class Helper {
     let index;
     let length;
 
-    if (!path) {
-      list.push(object)
-    } else {
-      dotIndex = path.indexOf('.')
+    if (path) {
+      dotIndex = path.indexOf('.');
 
-      if (dotIndex !== -1) {
-        firstSegment = path.slice(0, dotIndex)
-        remaining = path.slice(dotIndex + 1)
+      if (dotIndex === -1) {
+        firstSegment = path;
       } else {
-        firstSegment = path
+        firstSegment = path.slice(0, dotIndex);
+        remaining = path.slice(dotIndex + 1);
       }
 
-      value = object[firstSegment]
-      if (value !== null && value !== undefined) {
+      value = object[firstSegment];
+      if (value !== null && typeof value !== 'undefined') {
         if (!remaining && (typeof value === 'string' || typeof value === 'number')) {
-          list.push(value)
+          list.push(value);
         } else if (Object.prototype.toString.call(value) === '[object Array]') {
           for (index = 0, length = value.length; index < length; index++) {
-            Helper.getDescendantProperty(value[index], remaining, list)
+            Helper.getDescendantProperty(value[index], remaining, list);
           }
         } else if (remaining) {
-          Helper.getDescendantProperty(value, remaining, list)
+          Helper.getDescendantProperty(value, remaining, list);
         }
       }
+    } else {
+      list.push(object);
     }
 
-    return list
+    return list;
   }
 }

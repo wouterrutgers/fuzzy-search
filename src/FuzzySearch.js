@@ -2,7 +2,7 @@ import Helper from './Helper';
 
 module.exports = class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {
-    if (haystack.length == 0) {
+    if (haystack.length === 0) {
       throw new Error('We need an array containing the search list');
     }
 
@@ -15,33 +15,41 @@ module.exports = class FuzzySearch {
   }
 
   search(query = '') {
-    if (query == '') {
+    if (query === '') {
       return this.haystack;
     }
 
-    let results = [];
+    const results = [];
 
     for (let i = 0; i < this.haystack.length; i++) {
       const item = this.haystack[i];
 
-      if (this.keys.length == 0) {
-        const score = this.isMatch(item, query, this.options.caseSensitive);
+      if (this.keys.length === 0) {
+        const score = FuzzySearch.isMatch(item, query, this.options.caseSensitive);
 
         if (score) {
           results.push({ item, score });
         }
       } else {
-        keysLoop: for (let y = 0; y < this.keys.length; y++) {
+        for (let y = 0; y < this.keys.length; y++) {
           const propertyValues = Helper.getDescendantProperty(item, this.keys[y]);
 
+          let found = false;
+
           for (let z = 0; z < propertyValues.length; z++) {
-            const score = this.isMatch(propertyValues[z], query, this.options.caseSensitive);
+            const score = FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive);
 
             if (score) {
+              found = true;
+
               results.push({ item, score });
 
-              break keysLoop;
+              break;
             }
+          }
+
+          if (found) {
+            break;
           }
         }
       }
@@ -51,26 +59,26 @@ module.exports = class FuzzySearch {
       results.sort((a, b) => a.score - b.score);
     }
 
-    return results.map(result =>result.item);
+    return results.map(result => result.item);
   }
 
-  isMatch(item, query, caseSensitive) {
+  static isMatch(item, query, caseSensitive) {
     if (!caseSensitive) {
       item = item.toLocaleLowerCase();
       query = query.toLocaleLowerCase();
     }
 
     const letters = query.split('');
+    const indexes = [];
 
     let index = 0;
-    let indexes = [];
 
     for (let i = 0; i < letters.length; i++) {
       const letter = letters[i];
 
       index = item.indexOf(letter, index);
 
-      if (index == -1) {
+      if (index === -1) {
         return false;
       }
 
@@ -82,11 +90,11 @@ module.exports = class FuzzySearch {
     let score = 1;
 
     for (let i = 0; i < indexes.length; i++) {
-      if (i != indexes.length - 1) {
+      if (i !== indexes.length - 1) {
         score += indexes[i + 1] - indexes[i];
       }
     }
 
     return score;
   }
-}
+};

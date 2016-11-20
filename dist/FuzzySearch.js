@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _classCallCheck(this, FuzzySearch);
 	
-	    if (haystack.length == 0) {
+	    if (haystack.length === 0) {
 	      throw new Error('We need an array containing the search list');
 	    }
 	
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function search() {
 	      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	
-	      if (query == '') {
+	      if (query === '') {
 	        return this.haystack;
 	      }
 	
@@ -100,24 +100,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	      for (var i = 0; i < this.haystack.length; i++) {
 	        var item = this.haystack[i];
 	
-	        if (this.keys.length == 0) {
-	          var score = this.isMatch(item, query, this.options.caseSensitive);
+	        if (this.keys.length === 0) {
+	          var score = FuzzySearch.isMatch(item, query, this.options.caseSensitive);
 	
 	          if (score) {
 	            results.push({ item: item, score: score });
 	          }
 	        } else {
-	          keysLoop: for (var y = 0; y < this.keys.length; y++) {
+	          for (var y = 0; y < this.keys.length; y++) {
 	            var propertyValues = _Helper2.default.getDescendantProperty(item, this.keys[y]);
 	
+	            var found = false;
+	
 	            for (var z = 0; z < propertyValues.length; z++) {
-	              var _score = this.isMatch(propertyValues[z], query, this.options.caseSensitive);
+	              var _score = FuzzySearch.isMatch(propertyValues[z], query, this.options.caseSensitive);
 	
 	              if (_score) {
+	                found = true;
+	
 	                results.push({ item: item, score: _score });
 	
-	                break keysLoop;
+	                break;
 	              }
+	            }
+	
+	            if (found) {
+	              break;
 	            }
 	          }
 	        }
@@ -133,7 +141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result.item;
 	      });
 	    }
-	  }, {
+	  }], [{
 	    key: 'isMatch',
 	    value: function isMatch(item, query, caseSensitive) {
 	      if (!caseSensitive) {
@@ -142,16 +150,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	
 	      var letters = query.split('');
+	      var indexes = [];
 	
 	      var index = 0;
-	      var indexes = [];
 	
 	      for (var i = 0; i < letters.length; i++) {
 	        var letter = letters[i];
 	
 	        index = item.indexOf(letter, index);
 	
-	        if (index == -1) {
+	        if (index === -1) {
 	          return false;
 	        }
 	
@@ -163,7 +171,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var score = 1;
 	
 	      for (var _i = 0; _i < indexes.length; _i++) {
-	        if (_i != indexes.length - 1) {
+	        if (_i !== indexes.length - 1) {
 	          score += indexes[_i + 1] - indexes[_i];
 	        }
 	      }
@@ -203,8 +211,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        objects[_key] = arguments[_key];
 	      }
 	
-	      for (var x = 0; x < objects.length; x++) {
-	        var object = objects[x];
+	      for (var i = 0; i < objects.length; i++) {
+	        var object = objects[i];
 	
 	        for (var property in object) {
 	          if (Object.prototype.hasOwnProperty.call(object, property)) {
@@ -231,20 +239,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var index = void 0;
 	      var length = void 0;
 	
-	      if (!path) {
-	        list.push(object);
-	      } else {
+	      if (path) {
 	        dotIndex = path.indexOf('.');
 	
-	        if (dotIndex !== -1) {
+	        if (dotIndex === -1) {
+	          firstSegment = path;
+	        } else {
 	          firstSegment = path.slice(0, dotIndex);
 	          remaining = path.slice(dotIndex + 1);
-	        } else {
-	          firstSegment = path;
 	        }
 	
 	        value = object[firstSegment];
-	        if (value !== null && value !== undefined) {
+	        if (value !== null && typeof value !== 'undefined') {
 	          if (!remaining && (typeof value === 'string' || typeof value === 'number')) {
 	            list.push(value);
 	          } else if (Object.prototype.toString.call(value) === '[object Array]') {
@@ -255,6 +261,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            Helper.getDescendantProperty(value, remaining, list);
 	          }
 	        }
+	      } else {
+	        list.push(object);
 	      }
 	
 	      return list;
