@@ -1,61 +1,87 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var mocha = require('gulp-spawn-mocha');
-var umd = require('gulp-umd');
-var path = require('path');
-var runSequence = require('run-sequence');
+const gulp = require('gulp');
+const uglify = require('gulp-uglify');
+const path = require('path');
+const webpack = require('webpack');
+const easySauce = require('easy-sauce');
 
-var umdOptions = {
-  exports: function() {
-    return 'FuzzySearch';
-  },
-  namespace: function() {
-    return 'FuzzySearch';
-  },
-  template: path.join(__dirname, 'umd-template.js'),
-};
+gulp.task('webpack', callback => {
+  let config = require('./webpack.config');
+  let index = 0;
 
-gulp.task('default', function(callback) {
-  runSequence('compile', 'minify', 'test', callback);
+  const output = err => {
+    if (err) {
+      throw new err;
+    }
+
+    index++;
+
+    if (index < queue.length) {
+      queue[index]();
+    } else {
+      callback();
+    }
+  };
+
+  const queue = [
+    () => {
+      config.entry = './src/FuzzySearch.js';
+      webpack(config, output);
+    },
+    () => {
+      config.entry = './src/FuzzySearch.js';
+      config.output.filename = 'FuzzySearch.min.js';
+      webpack(config, output);
+    },
+    () => {
+      config.entry = './tests/test.js';
+      config.output = { path: './tests/compiled', filename: 'test.js' };
+      webpack(config, output);
+    },
+  ];
+
+  queue[0]();
 });
 
-gulp.task('compile', function() {
-  return gulp.src('src/Fuzzy-search.js')
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(rename('fuzzy-search.js'))
-    .pipe(umd(umdOptions))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dist'));
+gulp.task('test', ['webpack'], () => {
+  easySauce({
+    username: 'wouter2203',
+    key: '2481b772-1f66-42d0-9e3a-95a4773c340e',
+    testPath: '/tests/index.html',
+    platforms: [
+      // Windows
+      ['Windows 10', 'chrome', 'latest'],
+      ['Windows 10', 'MicrosoftEdge', 'latest'],
+      ['Windows 10', 'firefox', 'latest'],
+      ['Windows 7', 'internet explorer', '11.0'],
+      ['Windows 7', 'internet explorer', '10.0'],
+      ['Windows 7', 'internet explorer', '9.0'],
+
+      // Linux
+      ['Linux', 'chrome', 'latest'],
+      ['Linux', 'firefox', 'latest'],
+
+      // OS X
+      ['OS X 10.11', 'chrome', 'latest'],
+      ['OS X 10.11', 'safari', '10.0'],
+      ['OS X 10.11', 'firefox', 'latest'],
+    ],
+  }).on('message', message => console.log(message))
+    .on('update', job => console.log(job.status))
+    .on('done', (passed, jobs) => {
+      if (passed) {
+        console.log('All tests passed!');
+      } else {
+        console.log('Oops, there were failures');
+
+        jobs.forEach(job => {
+          if (job.result.failures > 0) {
+            console.log(`- ${job.url}`);
+          }
+        });
+      }
+    }).on('error', err => console.error(err.message));
 });
 
-gulp.task('minify', function() {
-  return gulp.src('src/Fuzzy-search.js')
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(rename('fuzzy-search.min.js'))
-    .pipe(umd(umdOptions))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('test', function() {
-  return gulp.src(['test/*.js'], {read: false})
-    .pipe(mocha({
-      debugBrk: true,
-      R: 'spec',
-      istanbul: true
-    }));
-});
-
-gulp.task('watch', function() {
-  gulp.watch('{src,test}/*', ['compile', 'test']);
+gulp.task('watch', () => {
+  gulp.watch('src/*', ['webpack']);
 });
