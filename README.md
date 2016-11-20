@@ -5,7 +5,6 @@
 [![Travis](https://img.shields.io/travis/wouter2203/fuzzy-search/master.svg)](https://travis-ci.org/wouter2203/fuzzy-search)
 [![npm](https://img.shields.io/npm/v/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![npm](https://img.shields.io/npm/dm/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
-[![Coveralls](https://img.shields.io/coveralls/wouter2203/fuzzy-search.svg)](https://coveralls.io/github/wouter2203/fuzzy-search)
 
 ![Browser support table](https://saucelabs.com/browser-matrix/wouter2203.svg)
 
