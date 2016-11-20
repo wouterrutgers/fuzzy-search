@@ -50,16 +50,19 @@ Array of objects containing the search list.
 ---
 
 **[keys]** *(type: `Array`, default: `[]`)*
+
 List of properties that will be searched. This also supports nested properties.
 
 ---
 
 **[options]** *(type: `Object`)*
+
 Object with options that will configure the search. Scroll/Swipe down to see more information on what options are available.
 
 ---
 
-**<needle>** *(type: `String`, default: `''`)*
+**\<needle\>** *(type: `String`, default: `''`)*
+
 The string to Fuzzy Search on.
 
 ### Options
