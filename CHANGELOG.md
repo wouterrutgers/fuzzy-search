@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.3.7 (2016-11-20)
+
+### Fixed
+- Fix readme file.
+
 ## v1.3.6 (2016-11-20)
 
 ### Added
