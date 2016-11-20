@@ -1,13 +1,13 @@
 # Fuzzy search
 
-[![Travis](https://img.shields.io/travis/wouter2203/fuzzy-search.svg)](https://travis-ci.org/wouter2203/fuzzy-search)
+*Simple lightweight Fuzzy Search library written in JavaScript, with zero dependencies!*
+
+[![Travis](https://img.shields.io/travis/wouter2203/fuzzy-search/master.svg)](https://travis-ci.org/wouter2203/fuzzy-search)
 [![npm](https://img.shields.io/npm/v/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![npm](https://img.shields.io/npm/dm/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![Coveralls](https://img.shields.io/coveralls/wouter2203/fuzzy-search.svg)](https://coveralls.io/github/wouter2203/fuzzy-search)
 
-> Simple fuzzy search
-
-Uses `String.indexOf` instead of `RegExp` to make this library 3 times faster than libraries that use `RegExp`!
+![Browser support table](https://saucelabs.com/browser-matrix/wouter2203.svg)
 
 ## Installation
 
@@ -17,14 +17,14 @@ Uses `String.indexOf` instead of `RegExp` to make this library 3 times faster th
 
 > Using `<script>`
 
-`<script src="fuzzy-search.min.js"></script>`
+`<script src="FuzzySearch.js"></script>`
 
 ## Quick start guide
-```js
+```javascript
 // This can be excluded when loaded via <script>
 import FuzzySearch from 'fuzzy-search'; // Or: var FuzzySearch = require('fuzzy-search');
 
-var people = [{
+const people = [{
   name: {
     firstName: 'Jesse',
     lastName: 'Bowen',
@@ -32,37 +32,44 @@ var people = [{
   state: 'Seattle',
 }];
 
-var fuzzy = new FuzzySearch(people, ['name.firstName', 'state'], {
+const searcher = new FuzzySearch(people, ['name.firstName', 'state'], {
   caseSensitive: true,
 });
-var result = fuzzy.search('ess');
+const result = searcher.search('ess');
 ```
 
 ## Documentation
-```js
-var fuzzy = new FuzzySearch(<haystack>, [keys], [options]);
-var result = fuzzy.search(<needle>);
+```javascript
+const searcher = new FuzzySearch(<haystack>, [keys], [options]);
+const result = searcher.search(<needle>);
 ```
 
-### `<hackstack>`
-(Array) Array of objects containing the search list
+**haystack** *(type: `Array`)*
 
-### `[keys]`
-(Array) List of properties that will be searched. This also supports nested properties.
+Array of objects containing the search list.
 
-### `[options]`
-(Object) Object with options that will configure the search
+---
 
-### `<needle>`
-(String) The string to search on 
+**[keys]** *(type: `Array`, default: `[]`)*
+List of properties that will be searched. This also supports nested properties.
 
-## Options
-**caseSensitive** (_type_: `Boolean`)
+---
+
+**[options]** *(type: `Object`)*
+Object with options that will configure the search. Scroll/Swipe down to see more information on what options are available.
+
+---
+
+**<needle>** *(type: `String`, default: `''`)*
+The string to Fuzzy Search on.
+
+### Options
+**caseSensitive** *(type: `Boolean`, default: `false`)*
 
 Indicates whether comparisons should be case sensitive.
 
-**sort** (_type_: `Boolean`)
+**sort** *(type: `Boolean`, default: `false`)*
 
-When `true` it will sort the results by best match (when searching for `abc` in the search set `['a__b__c', 'abc']` it would return `abc` as the first result)
+When `true` it will sort the results by best match (when searching for `abc` in the search set `['a__b__c', 'abc']` it would return `abc` as the first result).
 
-When `false` it will return the results in the original order
+When `false` it will return the results in the original order.

@@ -68,17 +68,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = function () {
 	  function FuzzySearch() {
-	    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var haystack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 	
 	    _classCallCheck(this, FuzzySearch);
 	
-	    if (list.length == 0) {
+	    if (haystack.length == 0) {
 	      throw new Error('We need an array containing the search list');
 	    }
 	
-	    this.list = list;
+	    this.haystack = haystack;
 	    this.keys = keys;
 	    this.options = _Helper2.default.extend({
 	      caseSensitive: false,
@@ -92,13 +92,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	
 	      if (query == '') {
-	        return this.list;
+	        return this.haystack;
 	      }
 	
 	      var results = [];
 	
-	      for (var i = 0; i < this.list.length; i++) {
-	        var item = this.list[i];
+	      for (var i = 0; i < this.haystack.length; i++) {
+	        var item = this.haystack[i];
 	
 	        if (this.keys.length == 0) {
 	          var score = this.isMatch(item, query, this.options.caseSensitive);

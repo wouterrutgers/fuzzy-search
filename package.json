@@ -10,11 +10,8 @@
     "chai": "^3.5.0",
     "easy-sauce": "^0.4.1",
     "gulp": "^3.9.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-spawn-mocha": "^3.1.0",
     "gulp-uglify": "^2.0.0",
-    "gulp-umd": "^0.2.0",
-    "run-sequence": "^1.1.5",
+    "mocha": "^3.1.2",
     "webpack": "^1.13.3"
   },
   "scripts": {

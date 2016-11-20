@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const path = require('path');
 const webpack = require('webpack');

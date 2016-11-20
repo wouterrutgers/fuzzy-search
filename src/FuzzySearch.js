@@ -1,12 +1,12 @@
 import Helper from './Helper';
 
 module.exports = class FuzzySearch {
-  constructor(list = [], keys = [], options = {}) {
-    if (list.length == 0) {
+  constructor(haystack = [], keys = [], options = {}) {
+    if (haystack.length == 0) {
       throw new Error('We need an array containing the search list');
     }
 
-    this.list = list;
+    this.haystack = haystack;
     this.keys = keys;
     this.options = Helper.extend({
       caseSensitive: false,
@@ -16,13 +16,13 @@ module.exports = class FuzzySearch {
 
   search(query = '') {
     if (query == '') {
-      return this.list;
+      return this.haystack;
     }
 
     let results = [];
 
-    for (let i = 0; i < this.list.length; i++) {
-      const item = this.list[i];
+    for (let i = 0; i < this.haystack.length; i++) {
+      const item = this.haystack[i];
 
       if (this.keys.length == 0) {
         const score = this.isMatch(item, query, this.options.caseSensitive);
