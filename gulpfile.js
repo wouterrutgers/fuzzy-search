@@ -3,6 +3,7 @@ const uglify = require('gulp-uglify');
 const path = require('path');
 const webpack = require('webpack');
 const easySauce = require('easy-sauce');
+const process = require('process');
 
 gulp.task('webpack', callback => {
   let config = require('./webpack.config');
@@ -44,8 +45,8 @@ gulp.task('webpack', callback => {
 
 gulp.task('test', ['webpack'], () => {
   easySauce({
-    username: 'wouter2203',
-    key: '2481b772-1f66-42d0-9e3a-95a4773c340e',
+    username: process.env.SAUCE_USERNAME,
+    key: process.env.SAUCE_KEY,
     testPath: '/tests/index.html',
     platforms: [
       // Windows
