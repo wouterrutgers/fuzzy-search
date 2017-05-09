@@ -7,8 +7,6 @@
 [![npm](https://img.shields.io/npm/dm/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NUA68T5TCC2BN)
 
-[![Browser support table](https://saucelabs.com/browser-matrix/wouter2203.svg)](https://saucelabs.com/u/wouter2203)
-
 ## Installation
 
 > Using npm
