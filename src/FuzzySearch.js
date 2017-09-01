@@ -95,6 +95,12 @@ module.exports = class FuzzySearch {
       }
     }
 
+    if (item === query) {
+      score /= 10;
+    } else if (item.startsWith(query)) {
+      score /= 2;
+    }
+
     return score;
   }
 };
