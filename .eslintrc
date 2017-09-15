@@ -188,7 +188,16 @@
     "space-before-function-paren": ["error", "never"],
     "space-in-parens": ["error"],
     "space-infix-ops": ["error"],
-    "space-unary-ops": ["error"],
+    "space-unary-ops": [
+      "error",
+      {
+        "words": true,
+        "nonwords": false,
+        "overrides": {
+          "!": true
+        }
+      }
+    ],
     "spaced-comment": ["error"],
     "unicode-bom": ["error"],
     "arrow-body-style": ["error"],

@@ -1,5 +1,13 @@
 # Release Notes
 
+## 1.5.0 (2017-09-15)
+### Changed
+- Update build tool
+- Update eslinter
+
+### Removed
+- Uncompressed compiled JavaScript
+
 ## v1.4.0 (2016-11-20)
 
 ### Added

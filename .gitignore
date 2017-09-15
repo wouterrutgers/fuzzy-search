@@ -1,4 +1,4 @@
-.idea
-node_modules
+.idea/
+node_modules/
 /tests/compiled/
-test
+mix-manifest.json

@@ -4,20 +4,18 @@
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
-    "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.8",
-    "babel-preset-es2015": "^6.18.0",
     "chai": "^3.5.0",
-    "easy-sauce": "^0.4.1",
+    "cross-env": "^5.0.5",
     "eslint": "^3.10.2",
-    "eslint-loader": "^1.6.1",
-    "gulp": "^3.9.1",
-    "gulp-uglify": "^2.0.0",
-    "mocha": "^3.1.2",
-    "webpack": "^1.13.3"
+    "laravel-mix": "^1.4.2",
+    "mocha": "^3.1.2"
   },
   "scripts": {
-    "test": "gulp test"
+    "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "prod": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "test": "cross-env NODE_ENV=development TESTING=true webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "lint": "node node_modules/eslint/bin/eslint src"
   },
   "repository": {
     "type": "git",
@@ -34,5 +32,8 @@
     "url": "https://github.com/wouter2203/fuzzy-search/issues"
   },
   "homepage": "https://github.com/wouter2203/fuzzy-search#readme",
-  "tonicExampleFilename": "example.js"
+  "tonicExampleFilename": "example.js",
+  "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1"
+  }
 }

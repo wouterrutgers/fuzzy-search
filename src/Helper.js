@@ -1,24 +1,4 @@
 export default class Helper {
-  static extend(...objects) {
-    const target = {};
-
-    for (let i = 0; i < objects.length; i++) {
-      const object = objects[i];
-
-      for (const property in object) {
-        if (Object.prototype.hasOwnProperty.call(object, property)) {
-          if (Object.prototype.toString.call(object[property]) === '[object Object]') {
-            target[property] = Helper.extend(target[property], object[property]);
-          } else {
-            target[property] = object[property];
-          }
-        }
-      }
-    }
-
-    return target;
-  }
-
   static getDescendantProperty(object, path, list = []) {
     let firstSegment;
     let remaining;
@@ -39,7 +19,7 @@ export default class Helper {
 
       value = object[firstSegment];
       if (value !== null && typeof value !== 'undefined') {
-        if (!remaining && (typeof value === 'string' || typeof value === 'number')) {
+        if (! remaining && (typeof value === 'string' || typeof value === 'number')) {
           list.push(value);
         } else if (Object.prototype.toString.call(value) === '[object Array]') {
           for (index = 0, length = value.length; index < length; index++) {

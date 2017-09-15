@@ -1,6 +1,6 @@
 import Helper from './Helper';
 
-module.exports = class FuzzySearch {
+export default class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {
     if (haystack.length === 0) {
       throw new Error('We need an array containing the search list');
@@ -8,7 +8,7 @@ module.exports = class FuzzySearch {
 
     this.haystack = haystack;
     this.keys = keys;
-    this.options = Helper.extend({
+    this.options = Object.assign({
       caseSensitive: false,
       sort: false,
     }, options);
@@ -63,7 +63,7 @@ module.exports = class FuzzySearch {
   }
 
   static isMatch(item, query, caseSensitive) {
-    if (!caseSensitive) {
+    if (! caseSensitive) {
       item = item.toLocaleLowerCase();
       query = query.toLocaleLowerCase();
     }
@@ -97,4 +97,4 @@ module.exports = class FuzzySearch {
 
     return score;
   }
-};
+}
