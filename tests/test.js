@@ -146,6 +146,17 @@ describe('Fuzzy', function () {
 
       expect(expectedOutput).to.eql(fuzzy.search('abc'));
     });
+
+    it('should boost score if query matches item exactly', function () {
+      var list = ['prolog', 'rust', 'r', 'ruby'];
+      var expectedOutput = ['r', 'rust', 'ruby', 'prolog'];
+
+      var fuzzy = new FuzzySearch(list, [], {
+        sort: true,
+      });
+
+      expect(expectedOutput).to.eql(fuzzy.search('r'));
+    });
   });
 
   describe('getDescendantProperty', function () {

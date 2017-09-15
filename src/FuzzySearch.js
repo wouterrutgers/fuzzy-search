@@ -87,14 +87,10 @@ export default class FuzzySearch {
       index++;
     }
 
-    let score = 1;
-
-    for (let i = 0; i < indexes.length; i++) {
-      if (i !== indexes.length - 1) {
-        score += indexes[i + 1] - indexes[i];
-      }
+    if (item === query) {
+      return 1;
     }
 
-    return score;
+    return indexes.reduce((a, b) => a + b, 2);
   }
 }

@@ -1,5 +1,11 @@
 # Release Notes
 
+## 2.0.0 (2017-09-15)
+### Changed
+- The way it sorts
+  - It now boosts scores of items that are exact matches
+  - It now boosts scores of items that start with they query
+
 ## 1.5.0 (2017-09-15)
 ### Changed
 - Update build tool
