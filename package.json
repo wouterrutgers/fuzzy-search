@@ -15,6 +15,7 @@
     "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
     "prod": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
     "test": "cross-env NODE_ENV=development TESTING=true webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "run:test": "mocha tests/compiled/test.js",
     "lint": "node node_modules/eslint/bin/eslint src"
   },
   "repository": {
