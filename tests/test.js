@@ -1,5 +1,7 @@
+const chai = require('./../node_modules/chai/chai');
 const expect = chai.expect;
 const Helper = require('./../src/Helper');
+const FuzzySearch = require('./../dist/FuzzySearch');
 
 describe('Fuzzy', function () {
   describe('search', function () {
