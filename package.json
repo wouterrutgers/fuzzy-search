@@ -4,6 +4,7 @@
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
     "chai": "^3.5.0",
     "cross-env": "^5.0.5",
     "eslint": "^3.10.2",
@@ -35,6 +36,5 @@
   "homepage": "https://github.com/wouter2203/fuzzy-search#readme",
   "tonicExampleFilename": "example.js",
   "dependencies": {
-    "babel-plugin-add-module-exports": "^0.2.1"
   }
 }
