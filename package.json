@@ -1,6 +1,6 @@
 {
   "name": "fuzzy-search",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
@@ -35,6 +35,5 @@
   },
   "homepage": "https://github.com/wouter2203/fuzzy-search#readme",
   "tonicExampleFilename": "example.js",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
