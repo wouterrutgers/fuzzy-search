@@ -2,10 +2,6 @@ import Helper from './Helper';
 
 export default class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {
-    if (haystack.length === 0) {
-      throw new Error('We need an array containing the search list');
-    }
-
     this.haystack = haystack;
     this.keys = keys;
     this.options = Object.assign({
