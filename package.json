@@ -1,6 +1,6 @@
 {
   "name": "fuzzy-search",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
