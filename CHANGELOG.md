@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.1.0 (2018-06-07)
+### Changed
+- Allow empty haystacks
+
 ## 2.0.1 (2017-10-17)
 ### Changed
 - Make it really zero dependencies again (https://github.com/wouter2203/fuzzy-search/pull/30)
