@@ -112,4 +112,12 @@ describe('FuzzySearch', () => {
 
     expect(['r', 'rust', 'ruby', 'prolog']).toEqual(fuzzy.search('r'));
   });
+
+  it('allows for configuration when the keys parameter is omitted', () => {
+    const fuzzy = new FuzzySearch(['a'], {
+      sort: true,
+    });
+
+    expect(['a']).toEqual(fuzzy.search('a'));
+  });
 });
