@@ -7,7 +7,6 @@ node_js:
   - "6"
 before_script:
   - yarn
-  - yarn test
 script:
   - yarn lint
-  - yarn run:test
+  - yarn test
