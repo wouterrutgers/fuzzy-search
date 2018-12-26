@@ -2,7 +2,7 @@ import Helper from './Helper';
 
 export default class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {
-    if (!Array.isArray(keys)) {
+    if (! Array.isArray(keys)) {
       options = keys;
       keys = [];
     }
