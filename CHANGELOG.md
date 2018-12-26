@@ -1,5 +1,9 @@
 # Release Notes
 
+## 3.0.0 (2018-12-26)
+### Changed
+- Sorting now prefers keys close together rather than at the beginning of the string.
+
 ## 2.2.0 (2018-12-26)
 ### Added
 - Keys parameter can now be omitted and configuration can be passed along in it's place.
