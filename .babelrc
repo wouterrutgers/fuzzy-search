@@ -1,6 +1,5 @@
 {
-  "plugins": [
-    "add-module-exports",
-    "transform-es2015-modules-umd"
+  "presets": [
+    "@babel/preset-env"
   ]
 }
