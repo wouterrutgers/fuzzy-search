@@ -77,7 +77,7 @@ describe('FuzzySearch', () => {
   });
 
   it('should allow to search case sensitive', () => {
-    const fuzzy = new FuzzySearch(['Patricia', 'Millaruelo', 'Itziar', 'Julia'], [], {
+    const fuzzy = new FuzzySearch(['Patricia', 'Millaruelo', 'Itziar', 'Julia'], {
       caseSensitive: true,
     });
 
@@ -98,7 +98,7 @@ describe('FuzzySearch', () => {
   });
 
   it('should allow sorting', () => {
-    const fuzzy = new FuzzySearch(['a______b______c', 'a__b__c', 'abc'], [], {
+    const fuzzy = new FuzzySearch(['a______b______c', 'a__b__c', 'abc'], {
       sort: true,
     });
 
@@ -106,7 +106,7 @@ describe('FuzzySearch', () => {
   });
 
   it('should boost score if query matches item exactly', () => {
-    const fuzzy = new FuzzySearch(['prolog', 'rust', 'r', 'ruby'], [], {
+    const fuzzy = new FuzzySearch(['prolog', 'rust', 'r', 'ruby'], {
       sort: true,
     });
 
@@ -119,5 +119,14 @@ describe('FuzzySearch', () => {
     });
 
     expect(['a']).toEqual(fuzzy.search('a'));
+  });
+
+  it('should rank words with matching letters close to each other higher', () => {
+    const fuzzy = new FuzzySearch(['Alarm Dictionary', 'BO_ALARM_DICTIONARY', 'Dogmatix Board Replacements', 'DOGMATIX_BOARD_REPLACEMENT_V'], {
+      sort: true,
+
+    });
+
+    expect(['Dogmatix Board Replacements', 'DOGMATIX_BOARD_REPLACEMENT_V', 'BO_ALARM_DICTIONARY']).toEqual(fuzzy.search('board'));
   });
 });

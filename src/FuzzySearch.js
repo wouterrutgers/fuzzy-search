@@ -88,10 +88,18 @@ export default class FuzzySearch {
       index++;
     }
 
+    // Exact matches should be first.
     if (item === query) {
       return 1;
     }
 
-    return indexes.reduce((a, b) => a + b, 2);
+    // If we have more than 2 letters, matches close to each other should be first.
+    if (indexes.length > 1) {
+      return 2 + (indexes[indexes.length - 1] - indexes[0]);
+    }
+
+
+    // Matches closest to the start of the string should be first.
+    return 2 + indexes[0];
   }
 }
