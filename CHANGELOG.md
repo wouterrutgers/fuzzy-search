@@ -1,5 +1,9 @@
 # Release Notes
 
+## 3.0.1 (2018-01-09)
+### Fixed
+- Umd template for Node.
+
 ## 3.0.0 (2018-12-26)
 ### Changed
 - Sorting now prefers keys close together rather than at the beginning of the string.
