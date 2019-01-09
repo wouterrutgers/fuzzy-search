@@ -5,5 +5,6 @@ mix.webpackConfig({
     library: 'FuzzySearch',
     libraryTarget: 'umd',
     libraryExport: 'default',
+    globalObject: "(typeof window !== 'undefined' ? window : this)",
   },
 }).js('src/FuzzySearch.js', 'dist/');

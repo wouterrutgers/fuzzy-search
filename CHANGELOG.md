@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.2.1 (2018-01-09)
+### Fixed
+- Umd template for Node.
+
 ## 2.2.0 (2018-12-26)
 ### Added
 - Keys parameter can now be omitted and configuration can be passed along in it's place.
