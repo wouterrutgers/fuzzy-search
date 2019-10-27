@@ -4,12 +4,12 @@
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
-    "@babel/register": "^7.0.0",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.11.0",
-    "jasmine": "^3.3.1",
-    "laravel-mix": "^4.0.12",
-    "vue-template-compiler": "^2.5.21"
+    "@babel/register": "^7.6.2",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.6.0",
+    "jasmine": "^3.5.0",
+    "laravel-mix": "^5.0.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
