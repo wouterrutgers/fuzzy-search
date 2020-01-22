@@ -1,6 +1,6 @@
 {
   "name": "fuzzy-search",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "devDependencies": {
@@ -9,7 +9,7 @@
     "eslint": "^6.6.0",
     "jasmine": "^3.5.0",
     "laravel-mix": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
