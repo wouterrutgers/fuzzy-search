@@ -64,6 +64,9 @@ export default class FuzzySearch {
   }
 
   static isMatch(item, query, caseSensitive) {
+    item = String(item);
+    query = String(query);
+
     if (! caseSensitive) {
       item = item.toLocaleLowerCase();
       query = query.toLocaleLowerCase();

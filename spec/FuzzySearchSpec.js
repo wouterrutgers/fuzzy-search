@@ -129,4 +129,16 @@ describe('FuzzySearch', () => {
 
     expect(['Dogmatix Board Replacements', 'DOGMATIX_BOARD_REPLACEMENT_V', 'BO_ALARM_DICTIONARY']).toEqual(fuzzy.search('board'));
   });
+
+  it('should be able to search by numeric values', () => {
+    const fuzzy = new FuzzySearch([1, 2, 11, 12]);
+
+    expect([1, 11, 12]).toEqual(fuzzy.search(1));
+  });
+
+  it('should rank numbers', () => {
+    const fuzzy = new FuzzySearch([12, 11, 1, 2], {sort: true,});
+
+    expect([1, 12, 11]).toEqual(fuzzy.search(1));
+  });
 });
