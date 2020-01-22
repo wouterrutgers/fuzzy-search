@@ -1,5 +1,9 @@
 # Release Notes
 
+## 3.1.0 (2019-10-27)
+### Added
+- Support for numeric values.
+
 ## 3.0.2 (2019-10-27)
 ### Fixed
 - Upgrade packages as some packages contained security issues.
