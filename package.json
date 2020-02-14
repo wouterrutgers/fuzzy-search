@@ -3,6 +3,7 @@
   "version": "3.1.0",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
+  "module": "src/FuzzySearch.js",
   "devDependencies": {
     "@babel/register": "^7.6.2",
     "cross-env": "^6.0.3",
