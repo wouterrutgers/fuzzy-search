@@ -1,6 +1,6 @@
 {
   "name": "fuzzy-search",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
   "module": "src/FuzzySearch.js",

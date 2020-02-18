@@ -1,5 +1,9 @@
 # Release Notes
 
+## 3.2.0 (2020-02-18)
+### Added
+- `module` is now registered in the `package.json`. 
+
 ## 3.1.0 (2020-01-22)
 ### Added
 - Support for numeric values.
