@@ -1,5 +1,9 @@
 # Release Notes
 
+## 3.2.1 (2020-02-20)
+### Fixed
+- Fix an issue where sorting is not working when the closest match of the query is at the end of the search string.
+
 ## 3.2.0 (2020-02-18)
 ### Added
 - `module` is now registered in the `package.json`. 

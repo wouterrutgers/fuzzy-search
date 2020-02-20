@@ -98,11 +98,15 @@ describe('FuzzySearch', () => {
   });
 
   it('should allow sorting', () => {
-    const fuzzy = new FuzzySearch(['a______b______c', 'a__b__c', 'abc'], {
+    const fuzzy1 = new FuzzySearch(['a______b______c', 'a__b__c', 'abc'], {
+      sort: true,
+    });
+    const fuzzy2 = new FuzzySearch(['application/cdfx+xml', 'application/pdf'], {
       sort: true,
     });
 
-    expect(['abc', 'a__b__c', 'a______b______c']).toEqual(fuzzy.search('abc'));
+    expect(['abc', 'a__b__c', 'a______b______c']).toEqual(fuzzy1.search('abc'));
+    expect(['application/pdf', 'application/cdfx+xml']).toEqual(fuzzy2.search('pdf'));
   });
 
   it('should boost score if query matches item exactly', () => {
