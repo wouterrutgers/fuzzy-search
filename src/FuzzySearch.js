@@ -72,23 +72,10 @@ export default class FuzzySearch {
       query = query.toLocaleLowerCase();
     }
 
-    const letters = query.split('');
-    const indexes = [];
+    const indexes = FuzzySearch.nearestIndexesFor(item, query);
 
-    let index = 0;
-
-    for (let i = 0; i < letters.length; i++) {
-      const letter = letters[i];
-
-      index = item.indexOf(letter, index);
-
-      if (index === -1) {
-        return false;
-      }
-
-      indexes.push(index);
-
-      index++;
+    if (! indexes) {
+      return false;
     }
 
     // Exact matches should be first.
@@ -101,8 +88,65 @@ export default class FuzzySearch {
       return 2 + (indexes[indexes.length - 1] - indexes[0]);
     }
 
-
     // Matches closest to the start of the string should be first.
     return 2 + indexes[0];
+  }
+
+  static nearestIndexesFor(item, query) {
+    const letters = query.split('');
+    let indexes = [];
+
+    const indexesOfFirstLetter = FuzzySearch.indexesOfFirstLetter(item, query);
+
+    indexesOfFirstLetter.forEach((startingIndex, loopingIndex) => {
+      let index = startingIndex + 1;
+
+      indexes[loopingIndex] = [startingIndex];
+
+      for (let i = 1; i < letters.length; i++) {
+        const letter = letters[i];
+
+        index = item.indexOf(letter, index);
+
+        if (index === -1) {
+          indexes[loopingIndex] = false;
+
+          break;
+        }
+
+        indexes[loopingIndex].push(index);
+
+        index++;
+      }
+    });
+
+    indexes = indexes.filter(letterIndexes => letterIndexes !== false);
+
+    if (! indexes.length) {
+      return false;
+    }
+
+    return indexes.sort((a, b) => {
+      if (a.length === 1) {
+        return a[0] - b[0];
+      }
+
+      a = a[a.length - 1] - a[0];
+      b = b[b.length - 1] - b[0];
+
+      return a - b;
+    })[0];
+  }
+
+  static indexesOfFirstLetter(item, query) {
+    const match = query[0];
+
+    return item.split('').map((letter, index) => {
+      if (letter !== match) {
+        return false;
+      }
+
+      return index;
+    }).filter(index => index !== false);
   }
 }
