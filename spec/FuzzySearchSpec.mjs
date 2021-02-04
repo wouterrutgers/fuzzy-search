@@ -1,4 +1,4 @@
-import FuzzySearch from '../src/FuzzySearch';
+import FuzzySearch from '../src/FuzzySearch.mjs';
 
 describe('FuzzySearch', () => {
   it('should return an error when called as a function', () => {
@@ -144,5 +144,11 @@ describe('FuzzySearch', () => {
     const fuzzy = new FuzzySearch([12, 11, 1, 2], {sort: true,});
 
     expect([1, 12, 11]).toEqual(fuzzy.search(1));
+  });
+
+  it('should sort abbreviation as first', () => {
+    const fuzzy = new FuzzySearch(["General Preferences Table", "Group Preferences Table", "Prefix User Preferences Table", "User Preferences Table"], { sort: true });
+    
+    expect(["User Preferences Table", "Prefix User Preferences Table", "Group Preferences Table"]).toEqual(fuzzy.search("upt"));
   });
 });
