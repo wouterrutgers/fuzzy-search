@@ -1,4 +1,4 @@
-import Helper from './Helper';
+import Helper from './Helper.mjs';
 
 export default class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {
@@ -83,13 +83,25 @@ export default class FuzzySearch {
       return 1;
     }
 
+    // If we hit abbreviation it should go before others (except exact match).
+    const abbreviationIndicies = [0];
+    for (let i=0; i<item.length; i++) {
+      if (item[i] === " ") abbreviationIndicies.push(i + 1);
+    }
+      
+    if (indexes.reduce((accumulator, currentValue) => abbreviationIndicies.includes(currentValue) && accumulator, true)) {
+      return 2 + indexes.reduce((accumulator, currentValue, i) => {
+        return accumulator + abbreviationIndicies.indexOf(currentValue);
+      }, 0);
+    }
+
     // If we have more than 2 letters, matches close to each other should be first.
     if (indexes.length > 1) {
-      return 2 + (indexes[indexes.length - 1] - indexes[0]);
+      return 3 + (indexes[indexes.length - 1] - indexes[0]);
     }
 
     // Matches closest to the start of the string should be first.
-    return 2 + indexes[0];
+    return 3 + indexes[0];
   }
 
   static nearestIndexesFor(item, query) {
