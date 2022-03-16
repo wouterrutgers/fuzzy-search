@@ -12,6 +12,7 @@ export default class FuzzySearch {
     this.options = Object.assign({
       caseSensitive: false,
       sort: false,
+      addScoreToItem: false
     }, options);
   }
 
@@ -43,6 +44,9 @@ export default class FuzzySearch {
             if (score) {
               found = true;
 
+              if(this.options.addScoreToItem){
+                item.score = score;
+              }
               results.push({ item, score });
 
               break;
