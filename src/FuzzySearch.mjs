@@ -1,4 +1,4 @@
-import Helper from './Helper';
+import Helper from './Helper.mjs';
 
 export default class FuzzySearch {
   constructor(haystack = [], keys = [], options = {}) {

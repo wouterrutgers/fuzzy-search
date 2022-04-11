@@ -1,4 +1,4 @@
-import FuzzySearch from '../src/FuzzySearch';
+import FuzzySearch from '../src/FuzzySearch.mjs';
 
 describe('FuzzySearch', () => {
   it('should return an error when called as a function', () => {

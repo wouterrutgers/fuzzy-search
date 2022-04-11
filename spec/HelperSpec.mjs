@@ -1,4 +1,4 @@
-import Helper from '../src/Helper';
+import Helper from '../src/Helper.mjs';
 
 describe('Helper', () => {
   it('should allow for deep key search', () => {
