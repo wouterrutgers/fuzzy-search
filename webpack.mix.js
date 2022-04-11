@@ -7,4 +7,4 @@ mix.webpackConfig({
     libraryExport: 'default',
     globalObject: "(typeof window !== 'undefined' ? window : this)",
   },
-}).js('src/FuzzySearch.js', 'dist/');
+}).js('src/FuzzySearch.mjs', 'dist/');

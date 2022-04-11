@@ -3,7 +3,7 @@
   "version": "3.2.1",
   "description": "Simple fuzzy search",
   "main": "./dist/FuzzySearch.js",
-  "module": "src/FuzzySearch.js",
+  "module": "src/FuzzySearch.mjs",
   "devDependencies": {
     "@babel/register": "^7.6.2",
     "cross-env": "^7.0.3",
@@ -13,9 +13,11 @@
     "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
-    "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm mix-manifest.json",
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "prod": "npm run production",
+    "production": "mix --production",
     "test": "jasmine",
     "lint": "eslint src --ext js,mjs"
   },
