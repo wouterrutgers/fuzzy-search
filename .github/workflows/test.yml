@@ -1,0 +1,22 @@
+name: Tests
+
+on: [ push, workflow_dispatch ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 14
+          - 16
+          - 17
+    steps:
+      - name: 'Set up Node.js ${{ matrix.node-version }}'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ matrix.node-version }}'
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: yarn lint
+      - run: yarn test
