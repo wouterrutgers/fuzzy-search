@@ -18,6 +18,7 @@
   "scripts": {
     "build": "vite build",
     "prepack": "vite build",
+    "release": "node scripts/release.mjs",
     "test": "vitest run",
     "test:package": "node scripts/check-package.mjs",
     "test:watch": "vitest",
