@@ -1,8 +1,8 @@
 # Fuzzy search
 
-*Simple lightweight Fuzzy Search library written in JavaScript, with zero dependencies!*
+*Simple lightweight fuzzy search library written in JavaScript, with zero runtime dependencies!*
 
-[![Travis](https://img.shields.io/travis/wouter2203/fuzzy-search/master.svg)](https://travis-ci.org/wouter2203/fuzzy-search)
+[![Checks](https://github.com/wouterrutgers/fuzzy-search/actions/workflows/test.yml/badge.svg)](https://github.com/wouterrutgers/fuzzy-search/actions/workflows/test.yml)
 [![npm](https://img.shields.io/npm/v/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![npm](https://img.shields.io/npm/dm/fuzzy-search.svg)](https://www.npmjs.com/package/fuzzy-search)
 [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NUA68T5TCC2BN)
@@ -11,11 +11,17 @@
 
 > Using npm
 
-`npm install fuzzy-search --save`
+`npm install fuzzy-search`
+
+> Using pnpm
+
+`pnpm add fuzzy-search`
 
 > Using `<script>`
 
 `<script src="FuzzySearch.js"></script>`
+
+The browser bundle is available at `dist/FuzzySearch.js` in the published package and exposes `FuzzySearch` globally.
 
 ## Quick start guide
 ```javascript
@@ -35,6 +41,10 @@ const searcher = new FuzzySearch(people, ['name.firstName', 'state'], {
 });
 const result = searcher.search('ess');
 ```
+
+## Development
+
+Use Node.js 24 and pnpm. Run `pnpm install`, `pnpm test`, `pnpm lint`, `pnpm build`, and `pnpm test:package`.
 
 ## Documentation
 ```javascript

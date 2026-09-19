@@ -1,5 +1,10 @@
 # Release Notes
 
+## Unreleased
+### Changed
+- Use pnpm, Vite, Vitest, and the current ESLint configuration for development and CI.
+- Build distribution files when packaging instead of committing them, while retaining ESM, CommonJS, and browser script support.
+
 ## 3.2.1 (2020-02-20)
 ### Fixed
 - Fix an issue where sorting is not working when the closest match of the query is at the end of the search string.

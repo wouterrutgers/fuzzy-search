@@ -1,22 +1,20 @@
-name: Tests
+name: Checks
 
-on: [ push, workflow_dispatch ]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  Build:
+  checks:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 14
-          - 16
-          - 17
     steps:
-      - name: 'Set up Node.js ${{ matrix.node-version }}'
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: '${{ matrix.node-version }}'
-      - uses: actions/checkout@v2
-      - run: yarn
-      - run: yarn lint
-      - run: yarn test
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm test:package
+      - run: pnpm pack --pack-destination /tmp

@@ -1,4 +1,5 @@
 import Helper from '../src/Helper.mjs';
+import { describe, expect, it } from 'vitest';
 
 describe('Helper', () => {
   it('should allow for deep key search', () => {
@@ -15,6 +16,6 @@ describe('Helper', () => {
       },
     };
 
-    expect(['NL', 'EN']).toEqual(Helper.getDescendantProperty(object, 'level1.level2.level3'));
+    expect(Helper.getDescendantProperty(object, 'level1.level2.level3')).toEqual(['NL', 'EN']);
   });
 });

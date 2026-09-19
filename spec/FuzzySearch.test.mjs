@@ -1,4 +1,5 @@
 import FuzzySearch from '../src/FuzzySearch.mjs';
+import { describe, expect, it } from 'vitest';
 
 describe('FuzzySearch', () => {
   it('should return an error when called as a function', () => {
@@ -10,13 +11,13 @@ describe('FuzzySearch', () => {
   it('should return strings matching "qwe"', () => {
     const fuzzy = new FuzzySearch(['test', 'again', 'word', 'something', 'qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']);
 
-    expect(['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']).toEqual(fuzzy.search('qwe'));
+    expect(fuzzy.search('qwe')).toEqual(['qwerty', 'qwerty keyboard', 'qrandomwanotherrandomething']);
   });
 
   it('should return strings matching "x"', () => {
     const fuzzy = new FuzzySearch(['x', 'xx', 'xxx', 't', 'f']);
 
-    expect(['x', 'xx', 'xxx']).toEqual(fuzzy.search('x'));
+    expect(fuzzy.search('x')).toEqual(['x', 'xx', 'xxx']);
   });
 
   it('should search in keys', () => {
@@ -31,12 +32,12 @@ describe('FuzzySearch', () => {
       },
     ], ['name']);
 
-    expect([
+    expect(fuzzy.search('als')).toEqual([
       {
         name: 'Alexandría DCastillo Gayubas',
         location: 'Bolivia',
       },
-    ]).toEqual(fuzzy.search('als'));
+    ]);
   });
 
   it('should search in array keys', () => {
@@ -51,12 +52,12 @@ describe('FuzzySearch', () => {
       },
     ], ['name']);
 
-    expect([
+    expect(fuzzy.search('itzi')).toEqual([
       {
         name: ['Itziar', 'Julia', 'Pumarola', 'Duenas'],
         location: 'Chile',
       },
-    ]).toEqual(fuzzy.search('itzi'));
+    ]);
   });
 
   it('should search in array keys containing objects', () => {
@@ -69,11 +70,11 @@ describe('FuzzySearch', () => {
       },
     ], ['persons.firstname']);
 
-    expect([
+    expect(fuzzy.search('tzia')).toEqual([
       {
         persons: [{ firstname: 'Patricia', lastname: 'Millaruelo' }, { firstname: 'Itziar', lastname: 'Julia' }],
       },
-    ]).toEqual(fuzzy.search('tzia'));
+    ]);
   });
 
   it('should allow to search case sensitive', () => {
@@ -81,20 +82,20 @@ describe('FuzzySearch', () => {
       caseSensitive: true,
     });
 
-    expect([]).toEqual(fuzzy.search('mill'));
+    expect(fuzzy.search('mill')).toEqual([]);
   });
 
   it('should return the whole list with an empty query string', () => {
     const list = ['Patricia', 'Millaruelo', 'Itziar', 'Julia'];
     const fuzzy = new FuzzySearch(list);
 
-    expect(list).toEqual(fuzzy.search());
+    expect(fuzzy.search()).toEqual(list);
   });
 
   it('should not match repeating letters', () => {
     const fuzzy = new FuzzySearch(['long string', 'string']);
 
-    expect([]).toEqual(fuzzy.search('looooooong string'));
+    expect(fuzzy.search('looooooong string')).toEqual([]);
   });
 
   it('should allow sorting', () => {
@@ -105,8 +106,8 @@ describe('FuzzySearch', () => {
       sort: true,
     });
 
-    expect(['abc', 'a__b__c', 'a______b______c']).toEqual(fuzzy1.search('abc'));
-    expect(['application/pdf', 'application/cdfx+xml']).toEqual(fuzzy2.search('pdf'));
+    expect(fuzzy1.search('abc')).toEqual(['abc', 'a__b__c', 'a______b______c']);
+    expect(fuzzy2.search('pdf')).toEqual(['application/pdf', 'application/cdfx+xml']);
   });
 
   it('should boost score if query matches item exactly', () => {
@@ -114,7 +115,7 @@ describe('FuzzySearch', () => {
       sort: true,
     });
 
-    expect(['r', 'rust', 'ruby', 'prolog']).toEqual(fuzzy.search('r'));
+    expect(fuzzy.search('r')).toEqual(['r', 'rust', 'ruby', 'prolog']);
   });
 
   it('allows for configuration when the keys parameter is omitted', () => {
@@ -122,7 +123,7 @@ describe('FuzzySearch', () => {
       sort: true,
     });
 
-    expect(['a']).toEqual(fuzzy.search('a'));
+    expect(fuzzy.search('a')).toEqual(['a']);
   });
 
   it('should rank words with matching letters close to each other higher', () => {
@@ -131,18 +132,18 @@ describe('FuzzySearch', () => {
 
     });
 
-    expect(['Dogmatix Board Replacements', 'DOGMATIX_BOARD_REPLACEMENT_V', 'BO_ALARM_DICTIONARY']).toEqual(fuzzy.search('board'));
+    expect(fuzzy.search('board')).toEqual(['Dogmatix Board Replacements', 'DOGMATIX_BOARD_REPLACEMENT_V', 'BO_ALARM_DICTIONARY']);
   });
 
   it('should be able to search by numeric values', () => {
     const fuzzy = new FuzzySearch([1, 2, 11, 12]);
 
-    expect([1, 11, 12]).toEqual(fuzzy.search(1));
+    expect(fuzzy.search(1)).toEqual([1, 11, 12]);
   });
 
   it('should rank numbers', () => {
     const fuzzy = new FuzzySearch([12, 11, 1, 2], {sort: true,});
 
-    expect([1, 12, 11]).toEqual(fuzzy.search(1));
+    expect(fuzzy.search(1)).toEqual([1, 12, 11]);
   });
 });
