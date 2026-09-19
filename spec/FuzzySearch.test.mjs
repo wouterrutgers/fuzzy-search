@@ -20,6 +20,13 @@ describe('FuzzySearch', () => {
     expect(fuzzy.search('x')).toEqual(['x', 'xx', 'xxx']);
   });
 
+  it('should match queries containing periods and hyphens', () => {
+    const fuzzy = new FuzzySearch(['M.A.D. World', 'M-A-D World', 'Mad World']);
+
+    expect(fuzzy.search('m.a.d.')).toEqual(['M.A.D. World']);
+    expect(fuzzy.search('m-a-d')).toEqual(['M-A-D World']);
+  });
+
   it('should search in keys', () => {
     const fuzzy = new FuzzySearch([
       {
