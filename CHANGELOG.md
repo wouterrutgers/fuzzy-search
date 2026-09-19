@@ -1,6 +1,8 @@
 # Release Notes
 
 ## Unreleased
+
+## 3.3.0 (2026-09-19)
 ### Changed
 - Use pnpm, Vite, Vitest, and the current ESLint configuration for development and CI.
 - Build distribution files when packaging instead of committing them, while retaining ESM, CommonJS, and browser script support.
